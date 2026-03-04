@@ -842,12 +842,14 @@ function savePDF() {
             const pdfBlob = pdf.output('blob');
             const blobUrl = URL.createObjectURL(pdfBlob);
 
-            if (isIOS) {
-                // iOS: 새 탭에서 PDF 열기 → 공유 버튼으로 저장 가능
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // 모바일(iOS/Android): 새 탭에서 PDF 열기 → 브라우저 공유/저장 버튼 사용
                 const newTab = window.open(blobUrl, '_blank');
                 if (!newTab) window.location.href = blobUrl;
             } else {
-                // Android & PC: 직접 다운로드
+                // PC: 직접 다운로드
                 const a = document.createElement('a');
                 a.href = blobUrl;
                 a.download = fileName;
@@ -864,7 +866,8 @@ function savePDF() {
             const fileName = '미래역량선언문.png';
             canvas.toBlob(blob => {
                 const url = URL.createObjectURL(blob);
-                if (isIOS) {
+                const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                if (isMobile) {
                     const newTab = window.open(url, '_blank');
                     if (!newTab) window.location.href = url;
                 } else {
