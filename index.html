@@ -800,8 +800,10 @@ function savePDF() {
     btn.disabled = true;
 
     const card = document.querySelector('.result-card');
-    const cardW = card.scrollWidth;
-    const cardH = card.scrollHeight;
+    // getBoundingClientRect()로 실제 시각적 크기 정확히 측정
+    const rect = card.getBoundingClientRect();
+    const cardW = Math.ceil(rect.width);
+    const cardH = Math.ceil(rect.height);
 
     html2canvas(card, {
         scale: 3,
@@ -812,8 +814,6 @@ function savePDF() {
         imageTimeout: 0,
         width: cardW,
         height: cardH,
-        windowWidth: cardW,
-        windowHeight: cardH,
         onclone: (doc) => {
             doc.querySelectorAll('*').forEach(el => {
                 el.style.backdropFilter = 'none';
