@@ -458,6 +458,30 @@
         .footer-quote p { color: #78909c; font-size: 0.88rem; line-height: 1.75; font-style: italic; }
         .footer-quote .author { color: #2ec4b6; font-style: normal; font-weight: bold; margin-top: 5px; display: block; }
 
+        /* ── 모바일 이미지 뷰어 오버레이 ── */
+        .img-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        .img-overlay.show { display: flex; }
+        .img-overlay img {
+            max-width: 96vw; max-height: 80vh;
+            border-radius: 10px; box-shadow: 0 0 30px rgba(0,0,0,0.6);
+        }
+        .img-overlay-tip {
+            margin-top: 16px; color: #fff; font-size: 0.95rem;
+            text-align: center; line-height: 1.8;
+            background: rgba(255,255,255,0.1); border-radius: 10px;
+            padding: 12px 20px;
+        }
+        .img-overlay-close {
+            margin-top: 14px; padding: 10px 32px;
+            background: rgba(255,255,255,0.15); color: #fff;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;
+            font-size: 0.95rem; cursor: pointer;
+        }
+
         /* ── Responsive ── */
         @media (max-width: 600px) {
             body { padding: 12px; }
@@ -779,8 +803,18 @@
 
         <div class="result-actions">
             <button class="btn-restart" onclick="restart()">다시 만들기</button>
-            <button class="btn-print" onclick="savePDF()">📥 PDF 저장 / 다운로드</button>
+            <button class="btn-print" onclick="savePDF()" id="btnSave">📥 저장 / 다운로드</button>
         </div>
+    </div>
+
+    <!-- 모바일 이미지 뷰어 -->
+    <div class="img-overlay" id="imgOverlay">
+        <img id="overlayImg" src="" alt="미래역량 선언문">
+        <div class="img-overlay-tip">
+            📌 이미지를 <strong>길게 눌러</strong> 저장하세요<br>
+            (사진첩 저장 / 파일 저장)
+        </div>
+        <button class="img-overlay-close" onclick="document.getElementById('imgOverlay').classList.remove('show')">닫기</button>
     </div>
 
     <div class="footer-quote">
@@ -825,43 +859,13 @@ function savePDF() {
     }).then(canvas => {
         const hasjsPDF = window.jspdf && window.jspdf.jsPDF;
 
-        // ── 모바일: PNG 저장 ──
+        // ── 모바일: 이미지 오버레이로 표시 (길게 눌러 저장) ──
         if (isMobile) {
-            canvas.toBlob(async (blob) => {
-                if (!blob) {
-                    alert('이미지 생성에 실패했습니다. 다시 시도해주세요.');
-                    btn.innerHTML = orig; btn.disabled = false;
-                    return;
-                }
-                // 1순위: Web Share API (안드로이드/iOS 공유 시트)
-                if (navigator.share && navigator.canShare) {
-                    try {
-                        const imgFile = new File([blob], '미래역량선언문.png', { type: 'image/png' });
-                        if (navigator.canShare({ files: [imgFile] })) {
-                            await navigator.share({ files: [imgFile], title: '미래역량 선언문' });
-                            btn.innerHTML = orig; btn.disabled = false;
-                            return;
-                        }
-                    } catch (e) {
-                        if (e.name === 'AbortError') {
-                            btn.innerHTML = orig; btn.disabled = false;
-                            return; // 사용자가 취소한 경우
-                        }
-                        // 그 외 에러는 아래 fallback으로
-                    }
-                }
-                // 2순위: a.download 직접 다운로드
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = '미래역량선언문.png';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(url), 5000);
-                btn.innerHTML = orig; btn.disabled = false;
-            }, 'image/jpeg', 0.9);   // JPEG: 용량 훨씬 작아 모바일에서 안정적
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            const overlayImg = document.getElementById('overlayImg');
+            overlayImg.src = dataUrl;
+            document.getElementById('imgOverlay').classList.add('show');
+            btn.innerHTML = orig; btn.disabled = false;
             return;
         }
 
