@@ -827,14 +827,15 @@ function savePDF() {
         const hasjsPDF = window.jspdf && window.jspdf.jsPDF;
 
         if (hasjsPDF) {
-            // ── PDF 저장 (A4 꽉 채움 - 여백 없음) ──
+            // ── PDF 저장 (카드 비율 그대로 - 여백 없음) ──
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            const pdfW = pdf.internal.pageSize.getWidth();   // 210mm
-            const pdfH = pdf.internal.pageSize.getHeight();  // 297mm
+            // 카드 가로:세로 비율에 맞춰 PDF 페이지 크기 결정
+            const pdfW = 210; // mm (A4 가로)
+            const pdfH = Math.round(pdfW * canvas.height / canvas.width);
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pdfW, pdfH] });
 
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            // A4 전체를 꽉 채워 위아래 여백 제거
+            // 페이지 전체를 꽉 채워 여백 없음
             pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
 
             const fileName = '미래역량선언문.pdf';
