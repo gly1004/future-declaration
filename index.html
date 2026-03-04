@@ -799,14 +799,14 @@ function savePDF() {
     btn.innerHTML = '⏳ 생성 중...';
     btn.disabled = true;
 
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const card = document.querySelector('.result-card');
-    // getBoundingClientRect()로 실제 시각적 크기 정확히 측정
     const rect = card.getBoundingClientRect();
     const cardW = Math.ceil(rect.width);
     const cardH = Math.ceil(rect.height);
 
     html2canvas(card, {
-        scale: 3,
+        scale: isMobile ? 2 : 3,   // 모바일은 파일 크기 줄이기
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#0b1e3d',
@@ -823,38 +823,45 @@ function savePDF() {
             });
         }
     }).then(canvas => {
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         const hasjsPDF = window.jspdf && window.jspdf.jsPDF;
 
-        // ── 모바일: PNG + Web Share API (가장 안정적) ──
+        // ── 모바일: PNG 저장 ──
         if (isMobile) {
             canvas.toBlob(async (blob) => {
-                const imgFile = new File([blob], '미래역량선언문.png', { type: 'image/png' });
-                if (navigator.canShare && navigator.canShare({ files: [imgFile] })) {
-                    try {
-                        await navigator.share({ files: [imgFile], title: '미래역량 선언문' });
-                    } catch (e) {
-                        if (e.name !== 'AbortError') {
-                            // 공유 실패 시 직접 다운로드 시도
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url; a.download = '미래역량선언문.png';
-                            document.body.appendChild(a); a.click();
-                            document.body.removeChild(a);
-                            setTimeout(() => URL.revokeObjectURL(url), 2000);
-                        }
-                    }
-                } else {
-                    // Web Share 미지원: 직접 다운로드
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url; a.download = '미래역량선언문.png';
-                    document.body.appendChild(a); a.click();
-                    document.body.removeChild(a);
-                    setTimeout(() => URL.revokeObjectURL(url), 2000);
+                if (!blob) {
+                    alert('이미지 생성에 실패했습니다. 다시 시도해주세요.');
+                    btn.innerHTML = orig; btn.disabled = false;
+                    return;
                 }
+                // 1순위: Web Share API (안드로이드/iOS 공유 시트)
+                if (navigator.share && navigator.canShare) {
+                    try {
+                        const imgFile = new File([blob], '미래역량선언문.png', { type: 'image/png' });
+                        if (navigator.canShare({ files: [imgFile] })) {
+                            await navigator.share({ files: [imgFile], title: '미래역량 선언문' });
+                            btn.innerHTML = orig; btn.disabled = false;
+                            return;
+                        }
+                    } catch (e) {
+                        if (e.name === 'AbortError') {
+                            btn.innerHTML = orig; btn.disabled = false;
+                            return; // 사용자가 취소한 경우
+                        }
+                        // 그 외 에러는 아래 fallback으로
+                    }
+                }
+                // 2순위: a.download 직접 다운로드
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = '미래역량선언문.png';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 5000);
                 btn.innerHTML = orig; btn.disabled = false;
-            }, 'image/png');
+            }, 'image/jpeg', 0.9);   // JPEG: 용량 훨씬 작아 모바일에서 안정적
             return;
         }
 
