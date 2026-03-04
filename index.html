@@ -366,22 +366,22 @@
 
         /* Declaration */
         .rc-decl {
-            background: rgba(46,196,182,0.07);
+            background: #ffffff;
             border-radius: 14px; padding: 28px 28px;
             text-align: center; position: relative;
-            box-shadow: 0 0 0 1px rgba(200,162,78,0.28), 0 0 0 5px rgba(200,162,78,0.06);
+            box-shadow: 0 0 0 1px rgba(200,162,78,0.5), 0 0 0 5px rgba(200,162,78,0.08);
         }
         .rc-decl::before {
             content: '\275D'; position: absolute; top: 8px; left: 14px;
-            font-size: 3rem; color: rgba(200,162,78,0.28); line-height: 1; font-family: serif;
+            font-size: 3rem; color: rgba(46,196,182,0.3); line-height: 1; font-family: serif;
         }
         .rc-decl::after {
             content: '\275E'; position: absolute; bottom: 4px; right: 14px;
-            font-size: 3rem; color: rgba(200,162,78,0.28); line-height: 1; font-family: serif;
+            font-size: 3rem; color: rgba(46,196,182,0.3); line-height: 1; font-family: serif;
         }
         .rc-decl-text {
-            font-size: 1.2rem; color: #f0f8f6; line-height: 2.3;
-            font-weight: 500; white-space: pre-wrap;
+            font-size: 1.2rem; color: #0f3a37; line-height: 2.3;
+            font-weight: 600; white-space: pre-wrap;
             text-align: center; display: block;
         }
 
@@ -405,31 +405,31 @@
         .sig-child-row {
             display: flex; justify-content: center;
             padding: 10px 16px;
-            background: rgba(46,196,182,0.08);
-            border: 1px solid rgba(46,196,182,0.3); border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid rgba(46,196,182,0.5); border-radius: 10px;
             margin-bottom: 10px;
         }
         .sig-child-inner { display: flex; align-items: center; gap: 10px; }
         .sig-badge {
-            font-size: 0.65rem; font-weight: bold; color: #64d8cb; white-space: nowrap;
-            background: rgba(46,196,182,0.13); border: 1px solid rgba(46,196,182,0.4);
+            font-size: 0.65rem; font-weight: bold; color: #0f6b64; white-space: nowrap;
+            background: rgba(46,196,182,0.15); border: 1px solid rgba(46,196,182,0.5);
             padding: 3px 10px; border-radius: 8px;
         }
-        .sig-name-text { font-size: 0.88rem; font-weight: 700; color: #e0f5f3; white-space: nowrap; }
-        .sig-write-line { width: 100px; border-bottom: 1.5px dotted rgba(46,196,182,0.6); min-height: 24px; }
+        .sig-name-text { font-size: 0.88rem; font-weight: 700; color: #0f3a37; white-space: nowrap; }
+        .sig-write-line { width: 100px; border-bottom: 1.5px dotted #2ec4b6; min-height: 24px; }
 
         .sig-family-box {
-            border: 1px solid rgba(200,162,78,0.25); border-radius: 10px;
-            padding: 12px 16px; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(200,162,78,0.5); border-radius: 10px;
+            padding: 12px 16px; background: #ffffff;
         }
         .sig-family-title {
-            font-size: 0.72rem; font-weight: bold; color: #c8a24e;
+            font-size: 0.72rem; font-weight: bold; color: #0f6b64;
             letter-spacing: 1px; margin-bottom: 10px;
         }
         .sig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .sig-person { text-align: center; }
-        .sig-person-line { border-bottom: 1.5px solid rgba(200,162,78,0.4); min-height: 36px; margin-bottom: 6px; }
-        .sig-person-role { font-size: 0.68rem; color: #8ac8c0; }
+        .sig-person-line { border-bottom: 1.5px solid rgba(46,196,182,0.6); min-height: 36px; margin-bottom: 6px; }
+        .sig-person-role { font-size: 0.68rem; color: #1a6a64; font-weight: 600; }
 
         .rc-watermark { display: none; font-size: 0.72rem; color: #aad4cc; text-align: center; margin-top: 14px; }
 
@@ -827,33 +827,33 @@ function savePDF() {
         const hasjsPDF = window.jspdf && window.jspdf.jsPDF;
 
         if (hasjsPDF) {
-            // ── PDF 저장 (A4) ──
+            // ── PDF 저장 (A4 꽉 채움 - 여백 없음) ──
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
             const pdfW = pdf.internal.pageSize.getWidth();   // 210mm
             const pdfH = pdf.internal.pageSize.getHeight();  // 297mm
 
-            const ratio = canvas.height / canvas.width;
-            const imgH = pdfW * ratio;
-            const yOffset = imgH < pdfH ? (pdfH - imgH) / 2 : 0;
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            pdf.addImage(imgData, 'JPEG', 0, yOffset, pdfW, Math.min(imgH, pdfH));
+            // A4 전체를 꽉 채워 위아래 여백 제거
+            pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
 
             const fileName = '미래역량선언문.pdf';
+            const pdfBlob = pdf.output('blob');
+            const blobUrl = URL.createObjectURL(pdfBlob);
 
-            if (isIOS && navigator.canShare) {
-                // iOS: Web Share API로 PDF 공유
-                const pdfBlob = pdf.output('blob');
-                const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
-                if (navigator.canShare({ files: [file] })) {
-                    navigator.share({ files: [file], title: '미래역량 선언문' })
-                        .catch(() => pdf.save(fileName));
-                } else {
-                    pdf.save(fileName);
-                }
+            if (isIOS) {
+                // iOS: 새 탭에서 PDF 열기 → 공유 버튼으로 저장 가능
+                const newTab = window.open(blobUrl, '_blank');
+                if (!newTab) window.location.href = blobUrl;
             } else {
-                // Android / PC: 직접 다운로드
-                pdf.save(fileName);
+                // Android & PC: 직접 다운로드
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
             }
             btn.innerHTML = orig;
             btn.disabled = false;
@@ -861,24 +861,20 @@ function savePDF() {
         } else {
             // ── PNG 저장 (fallback) ──
             const fileName = '미래역량선언문.png';
-            if (isIOS && navigator.canShare) {
-                canvas.toBlob(blob => {
-                    const file = new File([blob], fileName, { type: 'image/png' });
-                    navigator.share({ files: [file], title: '미래역량 선언문' })
-                        .catch(() => window.open(canvas.toDataURL('image/png'), '_blank'));
-                    btn.innerHTML = orig; btn.disabled = false;
-                }, 'image/png');
-            } else {
-                canvas.toBlob(blob => {
-                    const url = URL.createObjectURL(blob);
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                if (isIOS) {
+                    const newTab = window.open(url, '_blank');
+                    if (!newTab) window.location.href = url;
+                } else {
                     const a = document.createElement('a');
                     a.href = url; a.download = fileName;
                     document.body.appendChild(a); a.click();
                     document.body.removeChild(a);
-                    setTimeout(() => URL.revokeObjectURL(url), 1000);
-                    btn.innerHTML = orig; btn.disabled = false;
-                }, 'image/png');
-            }
+                    setTimeout(() => URL.revokeObjectURL(url), 2000);
+                }
+                btn.innerHTML = orig; btn.disabled = false;
+            }, 'image/png');
         }
     }).catch(err => {
         alert('저장 오류: ' + err.message);
