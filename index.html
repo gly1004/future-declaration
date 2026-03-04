@@ -827,16 +827,21 @@ function savePDF() {
         const hasjsPDF = window.jspdf && window.jspdf.jsPDF;
 
         if (hasjsPDF) {
-            // ── PDF 저장 (카드 비율 그대로 - 여백 없음) ──
+            // ── PDF 저장 (균등 여백으로 노란 박스 정중앙 배치) ──
             const { jsPDF } = window.jspdf;
-            // 카드 가로:세로 비율에 맞춰 PDF 페이지 크기 결정
             const pdfW = 210; // mm (A4 가로)
-            const pdfH = Math.round(pdfW * canvas.height / canvas.width);
-            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pdfW, pdfH] });
+            const margin = 8; // mm 상하좌우 동일 여백
+            const imgW = pdfW - margin * 2;
+            const imgH = imgW * canvas.height / canvas.width;
+            const pageH = imgH + margin * 2;
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [pdfW, pageH] });
 
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
-            // 페이지 전체를 꽉 채워 여백 없음
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+            // 카드 배경색과 같은 색으로 여백 채우기
+            pdf.setFillColor(11, 30, 61);
+            pdf.rect(0, 0, pdfW, pageH, 'F');
+            // 상하좌우 균등 여백으로 이미지 배치
+            pdf.addImage(imgData, 'JPEG', margin, margin, imgW, imgH);
 
             const fileName = '미래역량선언문.pdf';
             const pdfBlob = pdf.output('blob');
