@@ -533,33 +533,46 @@
                 display: flex !important; flex-direction: column !important;
             }
 
-            /* rc-inner이 남은 공간 전부 채우기 */
+            /* rc-inner: 전체 높이 채우기 + 세로 균등 배분 */
             .rc-inner {
                 border: 2px solid rgba(200,162,78,0.6) !important;
                 border-radius: 14px !important;
-                padding: 10px 18px !important;
+                padding: 14px 20px !important;
                 flex: 1 !important;
                 display: flex !important; flex-direction: column !important;
+                justify-content: space-between !important;
                 overflow: hidden !important;
             }
 
-            /* 1페이지 맞춤: 여백·간격 최소화 */
-            .rc-header { margin-bottom: 6px !important; }
-            .rc-ornament { margin: 2px 0 !important; }
-            .rc-info { margin-bottom: 8px !important; padding-bottom: 8px !important; }
-            .rc-section { margin-bottom: 6px !important; flex-shrink: 0 !important; }
-            .rc-section-title { margin-bottom: 6px !important; font-size: 0.85rem !important; }
-            .rc-decl { padding: 12px 18px !important; flex: 1 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+            /* 섹션 마진 제거 (justify-content이 간격 처리) */
+            .rc-header { margin-bottom: 0 !important; }
+            .rc-ornament { margin: 4px 0 !important; }
+            .rc-info { margin-bottom: 0 !important; padding-bottom: 10px !important; }
+            .rc-section { margin-bottom: 0 !important; }
+            .rc-section-title { margin-bottom: 6px !important; font-size: 0.88rem !important; }
+
+            /* 선언문 섹션만 남은 공간 채우도록 확장 */
+            .rc-section:last-of-type {
+                flex: 1 !important;
+                display: flex !important; flex-direction: column !important;
+                margin-top: 6px !important;
+            }
+            .rc-decl {
+                padding: 14px 20px !important;
+                flex: 1 !important;
+                display: flex !important; align-items: center !important; justify-content: center !important;
+            }
             .rc-decl::before, .rc-decl::after { font-size: 1.8rem !important; }
-            .rc-decl-text { font-size: 0.95rem !important; line-height: 1.65 !important; }
-            .rc-kw-tag { padding: 5px 14px !important; font-size: 0.82rem !important; }
-            .rc-kw-list { gap: 5px !important; }
-            .rc-footer { padding-top: 8px !important; margin-top: 8px !important; flex-shrink: 0 !important; }
-            .rc-pledge { margin-bottom: 8px !important; font-size: 0.8rem !important; line-height: 1.6 !important; }
-            .rc-title { font-size: 1.7rem !important; letter-spacing: 8px !important; }
-            .rc-name { font-size: 1.2rem !important; }
-            .sig-person-line { min-height: 18px !important; }
-            .sig-family-box { padding: 6px 12px !important; }
+            .rc-decl-text { font-size: 1rem !important; line-height: 1.8 !important; }
+            .rc-kw-tag { padding: 6px 16px !important; font-size: 0.84rem !important; }
+            .rc-kw-list { gap: 6px !important; }
+            .rc-footer { padding-top: 0 !important; margin-top: 0 !important; flex-shrink: 0 !important; }
+            .rc-pledge { margin-bottom: 8px !important; font-size: 0.82rem !important; line-height: 1.6 !important; }
+            .rc-title { font-size: 1.8rem !important; letter-spacing: 9px !important; }
+            .rc-name { font-size: 1.25rem !important; }
+            .rc-date { font-size: 0.88rem !important; }
+            .sig-person-line { min-height: 22px !important; }
+            .sig-family-box { padding: 8px 14px !important; }
             .sig-family-title { margin-bottom: 6px !important; }
 
             /* Chrome createPattern 오류 방지 */
