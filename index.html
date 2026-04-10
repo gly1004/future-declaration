@@ -359,10 +359,12 @@
         }
 
         .rc-kw-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .rc-kw-tag { padding: 9px 24px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; letter-spacing: 1px; }
+        .rc-kw-tag { padding: 9px 24px; border-radius: 20px; font-size: 0.95rem; font-weight: bold; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 6px; }
         .rc-kw-tag.t1 { background: rgba(46,196,182,0.18); border: 1px solid #2ec4b6; color: #64d8cb; }
         .rc-kw-tag.t2 { background: rgba(74,138,176,0.18); border: 1px solid #4a8ab0; color: #7ab4d4; }
         .rc-kw-tag.t3 { background: rgba(200,162,78,0.18); border: 1px solid #c8a24e; color: #f1c40f; }
+        .kw-cat { font-size: 0.78rem; opacity: 0.75; }
+        .kw-name { font-size: 0.95rem; }
 
         /* Declaration */
         .rc-decl {
@@ -403,13 +405,14 @@
         .sig-area { }
 
         .sig-child-row {
-            display: flex; justify-content: center;
+            display: flex; flex-direction: column; align-items: center;
             padding: 10px 16px;
             background: #ffffff;
             border: 1px solid rgba(46,196,182,0.5); border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 10px; gap: 8px;
         }
         .sig-child-inner { display: flex; align-items: center; gap: 10px; }
+        .sig-child-line-row { display: flex; justify-content: center; width: 100%; }
         .sig-badge {
             font-size: 0.65rem; font-weight: bold; color: #0f6b64; white-space: nowrap;
             background: rgba(46,196,182,0.15); border: 1px solid rgba(46,196,182,0.5);
@@ -515,8 +518,11 @@
 
             html, body {
                 width: 210mm !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
                 margin: 0 !important; padding: 0 !important;
                 background: #0b1e3d !important;
+                overflow: hidden !important;
                 -webkit-print-color-adjust: exact; print-color-adjust: exact;
             }
 
@@ -552,9 +558,9 @@
             /* 각 섹션 마진 초기화 */
             .rc-header { margin: 0 !important; }
             .rc-ornament { margin: 2px 0 !important; }
-            .rc-info { margin: 0 !important; padding-bottom: 10px !important; }
+            .rc-info { margin: 0 !important; padding-bottom: 6px !important; }
             .rc-section { margin: 0 !important; flex-shrink: 0 !important; }
-            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; }
+            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; overflow: hidden !important; }
 
             /* 선언문 섹션만 남은 공간 채움 */
             .rc-section:last-of-type {
@@ -573,8 +579,26 @@
             .rc-name { font-size: 1.4rem !important; }
             .rc-date { font-size: 0.92rem !important; }
             .rc-section-title { font-size: 0.95rem !important; margin-bottom: 6px !important; }
-            .rc-kw-tag { padding: 7px 18px !important; font-size: 0.92rem !important; }
-            .rc-kw-list { gap: 8px !important; }
+
+            /* 키워드: 세로 1줄씩, 카테고리 위 + 키워드 아래 */
+            .rc-kw-list {
+                flex-direction: row !important;
+                gap: 10px !important;
+                justify-content: center !important;
+            }
+            .rc-kw-tag {
+                display: inline-flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 2px !important;
+                padding: 8px 22px !important;
+            }
+            .kw-cat { font-size: 0.78rem !important; opacity: 0.8 !important; }
+            .kw-name { font-size: 1rem !important; font-weight: bold !important; }
+
+            /* 키워드 섹션과 나의 선언 사이 여백 */
+            .rc-section:first-of-type { margin-bottom: 8px !important; }
+
             .rc-decl::before, .rc-decl::after { font-size: 2.5rem !important; }
             .rc-decl-text { font-size: 1.25rem !important; line-height: 2.1 !important; }
 
@@ -586,31 +610,36 @@
                 line-height: 1.9 !important;
             }
 
-            /* 자녀 서명: 더 큰 박스 + 글자 */
+            /* 자녀 서명: 세로 배열, 큰 글자 */
             .sig-child-row {
+                flex-direction: column !important;
+                align-items: center !important;
                 padding: 14px 20px !important;
-                margin-bottom: 10px !important;
+                margin-bottom: 14px !important;
+                gap: 8px !important;
             }
-            .sig-badge { font-size: 0.82rem !important; padding: 5px 14px !important; }
+            .sig-badge { font-size: 1rem !important; padding: 6px 16px !important; }
             .sig-name-text { font-size: 1.05rem !important; }
-            .sig-write-line { width: 130px !important; min-height: 30px !important; }
+            .sig-write-line { width: 200px !important; min-height: 32px !important; }
+            .sig-child-line-row { display: flex !important; justify-content: center !important; width: 100% !important; }
 
-            /* 가족 서명: 더 큰 박스 + 글자 */
-            .sig-family-box { padding: 14px 18px !important; margin-bottom: 6px !important; }
+            /* 가족 서명: 더 큰 박스 + 글자, 자녀 서명과 여백 */
+            .sig-family-box { padding: 14px 18px !important; margin-bottom: 0 !important; }
             .sig-family-title { font-size: 0.9rem !important; margin-bottom: 10px !important; }
             .sig-person-line { min-height: 36px !important; margin-bottom: 8px !important; }
             .sig-person-role { font-size: 0.82rem !important; }
             .sig-grid { gap: 12px !important; }
 
-            /* 인용구 */
+            /* 인용구: 더 크게, 위아래 여백 */
             .sig-quote {
                 display: block !important;
                 text-align: center !important;
-                font-size: 0.82rem !important;
+                font-size: 0.95rem !important;
                 font-style: italic !important;
                 color: #8ac8c0 !important;
-                line-height: 1.7 !important;
-                margin-top: 6px !important;
+                line-height: 1.8 !important;
+                padding: 10px 0 !important;
+                margin-top: 4px !important;
             }
 
             /* Chrome createPattern 오류 방지 */
@@ -864,6 +893,8 @@
                             <div class="sig-child-inner">
                                 <span class="sig-badge">자녀 서명</span>
                                 <span class="sig-name-text" id="sigChildName"></span>
+                            </div>
+                            <div class="sig-child-line-row">
                                 <span class="sig-write-line"></span>
                             </div>
                         </div>
@@ -1215,7 +1246,7 @@ function showResult() {
     selectedKw.forEach((kw, i) => {
         const tag = document.createElement('span');
         tag.className = 'rc-kw-tag ' + tagCls[i];
-        tag.textContent = kw.icon + ' ' + kw.name + ' · ' + roles[i];
+        tag.innerHTML = '<span class="kw-cat">' + roles[i] + '</span><span class="kw-name">' + kw.icon + ' ' + kw.name + '</span>';
         kwList.appendChild(tag);
     });
 
