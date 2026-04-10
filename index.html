@@ -509,27 +509,21 @@
             @page { size: A4; margin: 0; }
 
             html, body {
-                width: 210mm !important; height: 297mm !important;
+                width: 210mm !important;
                 margin: 0 !important; padding: 0 !important;
                 background: #0b1e3d !important;
                 -webkit-print-color-adjust: exact; print-color-adjust: exact;
             }
 
-            /* 모든 불필요한 요소 숨김 */
+            /* 불필요한 요소 숨김 */
             header, #progressArea, #step1, #step2, #step3,
-            .result-actions, .footer-quote, .container,
-            #printToast { display: none !important; }
+            .result-actions, .footer-quote, #printToast { display: none !important; }
 
-            /* ── 2페이지 완전 차단: position:fixed로 레이아웃 흐름에서 제외 ── */
-            #step4 {
-                position: fixed !important;
-                top: 0 !important; left: 0 !important;
-                width: 210mm !important; height: 297mm !important;
-                display: block !important;
-                margin: 0 !important; padding: 0 !important;
-            }
+            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
-            /* 선언문 카드: A4 여백 포함 꽉 채우기 */
+            #step4 { display: block !important; margin: 0 !important; padding: 0 !important; }
+
+            /* 선언문 카드: A4 크기 고정, overflow:hidden으로 2페이지 차단 */
             .result-card {
                 box-shadow: none !important; border-radius: 0 !important;
                 animation: none !important;
@@ -539,7 +533,7 @@
                 overflow: hidden !important;
             }
 
-            /* rc-inner: 여백 안 전체 채우기, 섹션 간격은 gap으로 */
+            /* rc-inner: 남은 공간 전부 채우기 */
             .rc-inner {
                 border: 2px solid rgba(200,162,78,0.6) !important;
                 border-radius: 14px !important;
@@ -550,16 +544,16 @@
                 overflow: hidden !important;
             }
 
-            /* 각 섹션 마진 초기화 (gap이 간격 담당) */
+            /* 각 섹션 마진 초기화 */
             .rc-header { margin: 0 !important; }
             .rc-ornament { margin: 2px 0 !important; }
             .rc-info { margin: 0 !important; padding-bottom: 10px !important; }
-            .rc-section { margin: 0 !important; }
-            .rc-footer { margin: 0 !important; padding-top: 0 !important; }
+            .rc-section { margin: 0 !important; flex-shrink: 0 !important; }
+            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; }
 
             /* 선언문 섹션만 남은 공간 채움 */
             .rc-section:last-of-type {
-                flex: 1 !important;
+                flex: 1 !important; flex-shrink: 1 !important;
                 display: flex !important; flex-direction: column !important;
             }
             .rc-decl {
@@ -568,7 +562,7 @@
                 display: flex !important; align-items: center !important; justify-content: center !important;
             }
 
-            /* 글자 크기: 인쇄용으로 충분히 크게 */
+            /* 글자 크기 */
             .rc-title { font-size: 2rem !important; letter-spacing: 10px !important; }
             .rc-title-en { font-size: 0.82rem !important; }
             .rc-name { font-size: 1.4rem !important; }
