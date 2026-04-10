@@ -509,71 +509,80 @@
             @page { size: A4; margin: 0; }
 
             html, body {
-                width: 210mm !important;
-                height: 297mm !important;
-                overflow: hidden !important;
+                width: 210mm !important; height: 297mm !important;
                 margin: 0 !important; padding: 0 !important;
                 background: #0b1e3d !important;
                 -webkit-print-color-adjust: exact; print-color-adjust: exact;
             }
 
-            .container { max-width: 100% !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }
-
+            /* 모든 불필요한 요소 숨김 */
             header, #progressArea, #step1, #step2, #step3,
-            .result-actions, .footer-quote { display: none !important; }
+            .result-actions, .footer-quote, .container,
+            #printToast { display: none !important; }
 
-            #step4 { display: block !important; padding: 0 !important; margin: 0 !important; overflow: hidden !important; }
-
-            /* 선언문 박스 A4 꽉 채우기 */
-            .result-card {
-                box-shadow: none !important; border-radius: 0 !important;
-                padding: 4mm !important; animation: none !important;
+            /* ── 2페이지 완전 차단: position:fixed로 레이아웃 흐름에서 제외 ── */
+            #step4 {
+                position: fixed !important;
+                top: 0 !important; left: 0 !important;
                 width: 210mm !important; height: 297mm !important;
-                margin: 0 !important; overflow: hidden !important;
-                display: flex !important; flex-direction: column !important;
+                display: block !important;
+                margin: 0 !important; padding: 0 !important;
             }
 
-            /* rc-inner: 전체 높이 채우기 + 세로 균등 배분 */
-            .rc-inner {
-                border: 2px solid rgba(200,162,78,0.6) !important;
-                border-radius: 14px !important;
-                padding: 14px 20px !important;
-                flex: 1 !important;
+            /* 선언문 카드: A4 여백 포함 꽉 채우기 */
+            .result-card {
+                box-shadow: none !important; border-radius: 0 !important;
+                animation: none !important;
+                width: 210mm !important; height: 297mm !important;
+                margin: 0 !important; padding: 10mm !important;
                 display: flex !important; flex-direction: column !important;
-                justify-content: space-between !important;
                 overflow: hidden !important;
             }
 
-            /* 섹션 마진 제거 (justify-content이 간격 처리) */
-            .rc-header { margin-bottom: 0 !important; }
-            .rc-ornament { margin: 4px 0 !important; }
-            .rc-info { margin-bottom: 0 !important; padding-bottom: 10px !important; }
-            .rc-section { margin-bottom: 0 !important; }
-            .rc-section-title { margin-bottom: 6px !important; font-size: 0.88rem !important; }
+            /* rc-inner: 여백 안 전체 채우기, 섹션 간격은 gap으로 */
+            .rc-inner {
+                border: 2px solid rgba(200,162,78,0.6) !important;
+                border-radius: 14px !important;
+                padding: 16px 22px !important;
+                flex: 1 !important;
+                display: flex !important; flex-direction: column !important;
+                gap: 10px !important;
+                overflow: hidden !important;
+            }
 
-            /* 선언문 섹션만 남은 공간 채우도록 확장 */
+            /* 각 섹션 마진 초기화 (gap이 간격 담당) */
+            .rc-header { margin: 0 !important; }
+            .rc-ornament { margin: 2px 0 !important; }
+            .rc-info { margin: 0 !important; padding-bottom: 10px !important; }
+            .rc-section { margin: 0 !important; }
+            .rc-footer { margin: 0 !important; padding-top: 0 !important; }
+
+            /* 선언문 섹션만 남은 공간 채움 */
             .rc-section:last-of-type {
                 flex: 1 !important;
                 display: flex !important; flex-direction: column !important;
-                margin-top: 6px !important;
             }
             .rc-decl {
-                padding: 14px 20px !important;
                 flex: 1 !important;
+                padding: 16px 22px !important;
                 display: flex !important; align-items: center !important; justify-content: center !important;
             }
-            .rc-decl::before, .rc-decl::after { font-size: 1.8rem !important; }
-            .rc-decl-text { font-size: 1rem !important; line-height: 1.8 !important; }
-            .rc-kw-tag { padding: 6px 16px !important; font-size: 0.84rem !important; }
-            .rc-kw-list { gap: 6px !important; }
-            .rc-footer { padding-top: 0 !important; margin-top: 0 !important; flex-shrink: 0 !important; }
-            .rc-pledge { margin-bottom: 8px !important; font-size: 0.82rem !important; line-height: 1.6 !important; }
-            .rc-title { font-size: 1.8rem !important; letter-spacing: 9px !important; }
-            .rc-name { font-size: 1.25rem !important; }
-            .rc-date { font-size: 0.88rem !important; }
-            .sig-person-line { min-height: 22px !important; }
+
+            /* 글자 크기: 인쇄용으로 충분히 크게 */
+            .rc-title { font-size: 2rem !important; letter-spacing: 10px !important; }
+            .rc-title-en { font-size: 0.82rem !important; }
+            .rc-name { font-size: 1.4rem !important; }
+            .rc-date { font-size: 0.92rem !important; }
+            .rc-section-title { font-size: 0.95rem !important; margin-bottom: 6px !important; }
+            .rc-kw-tag { padding: 7px 18px !important; font-size: 0.92rem !important; }
+            .rc-kw-list { gap: 8px !important; }
+            .rc-decl::before, .rc-decl::after { font-size: 2rem !important; }
+            .rc-decl-text { font-size: 1.1rem !important; line-height: 1.9 !important; }
+            .rc-pledge { font-size: 0.88rem !important; margin-bottom: 10px !important; line-height: 1.65 !important; }
+            .sig-person-line { min-height: 24px !important; }
             .sig-family-box { padding: 8px 14px !important; }
-            .sig-family-title { margin-bottom: 6px !important; }
+            .sig-family-title { font-size: 0.78rem !important; margin-bottom: 6px !important; }
+            .sig-person-role { font-size: 0.75rem !important; }
 
             /* Chrome createPattern 오류 방지 */
             .result-card::before, .result-card::after {
@@ -585,11 +594,7 @@
             .rc-kw-tag, .rc-decl, .sig-child-row, .sig-family-box {
                 -webkit-print-color-adjust: exact; print-color-adjust: exact;
             }
-            .ps-circle, .step-num, .cat-section-header, .btn-next, .btn-prev {
-                background: transparent !important;
-            }
             .rc-watermark { display: block !important; }
-            #printToast { display: none !important; }
         }
     </style>
 </head>
