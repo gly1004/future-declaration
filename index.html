@@ -514,11 +514,15 @@
 
         /* ── Print ── */
         @media print {
-            @page { size: A4; margin: 0; }
+            @page { size: A4 portrait; margin: 0; }
 
-            html, body {
-                width: 210mm !important;
-                height: 297mm !important;
+            html {
+                width: 210mm !important; height: 297mm !important;
+                overflow: hidden !important;
+                -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            }
+            body {
+                width: 210mm !important; height: 297mm !important;
                 max-height: 297mm !important;
                 margin: 0 !important; padding: 0 !important;
                 background: #0b1e3d !important;
@@ -534,112 +538,104 @@
 
             #step4 { display: block !important; margin: 0 !important; padding: 0 !important; }
 
-            /* 선언문 카드: A4 크기 고정, overflow:hidden으로 2페이지 차단 */
+            /* 선언문 카드: A4 크기 고정 */
             .result-card {
                 box-shadow: none !important; border-radius: 0 !important;
                 animation: none !important;
                 width: 210mm !important; height: 297mm !important;
-                margin: 0 !important; padding: 10mm !important;
+                max-height: 297mm !important;
+                margin: 0 !important; padding: 8mm 10mm !important;
                 display: flex !important; flex-direction: column !important;
                 overflow: hidden !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
 
             /* rc-inner: 남은 공간 전부 채우기 */
             .rc-inner {
                 border: 2px solid rgba(200,162,78,0.6) !important;
                 border-radius: 14px !important;
-                padding: 14px 20px !important;
+                padding: 12px 20px !important;
                 flex: 1 !important;
                 display: flex !important; flex-direction: column !important;
-                gap: 6px !important;
+                gap: 4px !important;
                 overflow: hidden !important;
             }
 
-            /* 각 섹션 마진 초기화 */
+            /* 헤더·정보 compact */
             .rc-header { margin: 0 !important; }
-            .rc-ornament { margin: 2px 0 !important; }
-            .rc-info { margin: 0 !important; padding-bottom: 6px !important; }
+            .rc-ornament { margin: 1px 0 !important; }
+            .rc-info { margin: 0 !important; padding-bottom: 4px !important; }
             .rc-section { margin: 0 !important; flex-shrink: 0 !important; }
-            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; overflow: hidden !important; }
+            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; }
 
-            /* 선언문 섹션만 남은 공간 채움 */
+            /* 나의 선언 섹션: 남은 공간 모두 차지 → 박스가 자동으로 커짐 */
             .rc-section:last-of-type {
                 flex: 1 !important; flex-shrink: 1 !important;
                 display: flex !important; flex-direction: column !important;
+                margin-top: 6px !important;   /* 키워드↔나의선언 여백 */
             }
             .rc-decl {
                 flex: 1 !important;
-                padding: 20px 28px !important;
+                padding: 22px 28px !important;
                 display: flex !important; align-items: center !important; justify-content: center !important;
             }
 
             /* 글자 크기 */
-            .rc-title { font-size: 2rem !important; letter-spacing: 10px !important; }
-            .rc-title-en { font-size: 0.82rem !important; }
-            .rc-name { font-size: 1.4rem !important; }
-            .rc-date { font-size: 0.92rem !important; }
-            .rc-section-title { font-size: 0.95rem !important; margin-bottom: 6px !important; }
+            .rc-title { font-size: 1.85rem !important; letter-spacing: 8px !important; }
+            .rc-title-en { font-size: 0.78rem !important; }
+            .rc-name { font-size: 1.3rem !important; }
+            .rc-date { font-size: 0.88rem !important; }
+            .rc-section-title { font-size: 0.95rem !important; margin-bottom: 5px !important; }
 
-            /* 키워드: 세로 1줄씩, 카테고리 위 + 키워드 아래 */
-            .rc-kw-list {
-                flex-direction: row !important;
-                gap: 10px !important;
-                justify-content: center !important;
-            }
+            /* 키워드: 카테고리 위·키워드명 아래 */
+            .rc-kw-list { flex-direction: row !important; gap: 10px !important; justify-content: center !important; }
             .rc-kw-tag {
-                display: inline-flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 2px !important;
-                padding: 8px 22px !important;
+                display: inline-flex !important; flex-direction: column !important;
+                align-items: center !important; gap: 2px !important;
+                padding: 7px 20px !important;
             }
-            .kw-cat { font-size: 0.78rem !important; opacity: 0.8 !important; }
-            .kw-name { font-size: 1rem !important; font-weight: bold !important; }
-
-            /* 키워드 섹션과 나의 선언 사이 여백 */
-            .rc-section:first-of-type { margin-bottom: 8px !important; }
+            .kw-cat { font-size: 0.75rem !important; opacity: 0.8 !important; }
+            .kw-name { font-size: 0.98rem !important; font-weight: bold !important; }
 
             .rc-decl::before, .rc-decl::after { font-size: 2.5rem !important; }
             .rc-decl-text { font-size: 1.25rem !important; line-height: 2.1 !important; }
 
-            /* pledge: 더 큰 글자, 위아래 여백 */
+            /* pledge */
             .rc-pledge {
-                font-size: 1.05rem !important;
-                padding: 10px 0 !important;
+                font-size: 1.0rem !important;
+                padding: 8px 0 !important;
                 margin-bottom: 8px !important;
-                line-height: 1.9 !important;
+                line-height: 1.85 !important;
             }
 
-            /* 자녀 서명: 세로 배열, 큰 글자 */
+            /* 자녀 서명: 박스 크게, 서명선 다음 줄 */
             .sig-child-row {
-                flex-direction: column !important;
-                align-items: center !important;
-                padding: 14px 20px !important;
-                margin-bottom: 14px !important;
-                gap: 8px !important;
+                flex-direction: column !important; align-items: center !important;
+                padding: 16px 20px !important;
+                margin-bottom: 10px !important;
+                gap: 10px !important;
             }
-            .sig-badge { font-size: 1rem !important; padding: 6px 16px !important; }
+            .sig-badge { font-size: 1rem !important; padding: 6px 18px !important; }
             .sig-name-text { font-size: 1.05rem !important; }
-            .sig-write-line { width: 200px !important; min-height: 32px !important; }
+            .sig-write-line { width: 220px !important; min-height: 34px !important; }
             .sig-child-line-row { display: flex !important; justify-content: center !important; width: 100% !important; }
 
-            /* 가족 서명: 더 큰 박스 + 글자, 자녀 서명과 여백 */
-            .sig-family-box { padding: 14px 18px !important; margin-bottom: 0 !important; }
-            .sig-family-title { font-size: 0.9rem !important; margin-bottom: 10px !important; }
-            .sig-person-line { min-height: 36px !important; margin-bottom: 8px !important; }
-            .sig-person-role { font-size: 0.82rem !important; }
-            .sig-grid { gap: 12px !important; }
+            /* 가족 서명: 박스 크게 */
+            .sig-family-box { padding: 16px 20px !important; margin-bottom: 0 !important; }
+            .sig-family-title { font-size: 0.92rem !important; margin-bottom: 12px !important; }
+            .sig-person-line { min-height: 42px !important; margin-bottom: 8px !important; }
+            .sig-person-role { font-size: 0.85rem !important; }
+            .sig-grid { gap: 14px !important; }
 
-            /* 인용구: 더 크게, 위아래 여백 */
+            /* 인용구 */
             .sig-quote {
-                display: block !important;
-                text-align: center !important;
-                font-size: 0.95rem !important;
-                font-style: italic !important;
-                color: #8ac8c0 !important;
-                line-height: 1.8 !important;
-                padding: 10px 0 !important;
-                margin-top: 4px !important;
+                display: block !important; text-align: center !important;
+                font-size: 0.95rem !important; font-style: italic !important;
+                color: #8ac8c0 !important; line-height: 1.8 !important;
+                padding: 10px 0 !important; margin-top: 4px !important;
             }
 
             /* Chrome createPattern 오류 방지 */
