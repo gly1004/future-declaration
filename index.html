@@ -569,7 +569,10 @@
             .rc-ornament { margin: 1px 0 !important; }
             .rc-info { margin: 0 !important; padding-bottom: 4px !important; }
             .rc-section { margin: 0 !important; flex-shrink: 0 !important; }
-            .rc-footer { margin: 0 !important; padding-top: 0 !important; flex-shrink: 0 !important; }
+            .rc-footer {
+                margin-top: 14px !important; padding-top: 14px !important;
+                padding-bottom: 0 !important; flex-shrink: 0 !important;
+            }
 
             /* 나의 선언 섹션: 남은 공간 모두 차지 → 박스가 자동으로 커짐 */
             .rc-section:last-of-type {
@@ -648,7 +651,7 @@
             .rc-kw-tag, .rc-decl, .sig-child-row, .sig-family-box {
                 -webkit-print-color-adjust: exact; print-color-adjust: exact;
             }
-            .rc-watermark { display: block !important; }
+            .rc-watermark { display: none !important; }
         }
     </style>
 </head>
