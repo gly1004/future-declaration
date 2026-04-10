@@ -20,9 +20,9 @@
         /* ── Header ── */
         header { text-align: center; padding: 40px 20px 28px; }
 
-        header h1 { font-size: 1.85rem; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
+        header h1 { font-size: 2.2rem; color: #fff; margin-bottom: 10px; letter-spacing: 1px; }
         header h1 span { color: #64d8cb; }
-        header p { color: #8aacbf; font-size: 0.9rem; line-height: 1.75; }
+        header p { color: #8aacbf; font-size: 1rem; line-height: 1.75; }
 
         /* ── Progress ── */
         .progress-wrap { margin-bottom: 28px; }
@@ -47,7 +47,7 @@
         }
         .ps-circle.done { background: rgba(46,196,182,0.2); border-color: #2ec4b6; color: #2ec4b6; }
 
-        .ps-label { font-size: 0.68rem; color: rgba(255,255,255,0.3); text-align: center; }
+        .ps-label { font-size: 0.8rem; color: rgba(255,255,255,0.3); text-align: center; }
         .ps-label.active { color: #64d8cb; font-weight: bold; }
         .ps-label.done { color: #2ec4b6; }
 
@@ -80,12 +80,12 @@
             font-weight: bold; font-size: 1.1rem; flex-shrink: 0;
         }
 
-        .step-heading-text h2 { font-size: 1.2rem; color: #64d8cb; margin-bottom: 4px; }
-        .step-heading-text p { font-size: 0.84rem; color: #7da8be; line-height: 1.6; }
+        .step-heading-text h2 { font-size: 1.4rem; color: #64d8cb; margin-bottom: 4px; }
+        .step-heading-text p { font-size: 0.96rem; color: #7da8be; line-height: 1.6; }
 
         /* ── Forms ── */
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #b8d4e4; font-weight: bold; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 1rem; color: #b8d4e4; font-weight: bold; }
 
         .form-group input, .form-group textarea {
             width: 100%; padding: 14px 16px;
@@ -111,8 +111,8 @@
             border: 1px solid rgba(46,196,182,0.2);
             border-radius: 12px; padding: 16px 18px; margin-top: 10px;
         }
-        .info-box-title { font-size: 0.82rem; color: #64d8cb; font-weight: bold; margin-bottom: 8px; }
-        .info-box-body { font-size: 0.82rem; color: #8aacbf; line-height: 1.9; }
+        .info-box-title { font-size: 0.94rem; color: #64d8cb; font-weight: bold; margin-bottom: 8px; }
+        .info-box-body { font-size: 0.94rem; color: #8aacbf; line-height: 1.9; }
         .info-box-body strong { color: #64d8cb; }
 
         /* ── Category Section ── */
@@ -123,8 +123,8 @@
             background: linear-gradient(135deg, rgba(26,74,110,0.55), rgba(15,37,69,0.35));
             border-radius: 10px; border-left: 3px solid #2ec4b6;
         }
-        .cat-section-icon { font-size: 1.05rem; }
-        .cat-section-name { font-size: 0.88rem; font-weight: bold; color: #64d8cb; letter-spacing: 1px; }
+        .cat-section-icon { font-size: 1.2rem; }
+        .cat-section-name { font-size: 1rem; font-weight: bold; color: #64d8cb; letter-spacing: 1px; }
 
         /* ── Keyword Grid ── */
         .kw-cat { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
@@ -524,13 +524,29 @@
 
             .result-card {
                 box-shadow: none !important; border-radius: 0 !important;
-                padding: 8mm !important; animation: none !important;
+                padding: 5mm !important; animation: none !important;
                 overflow: visible !important;
                 width: 210mm !important; min-height: 297mm !important;
                 margin: 0 !important;
             }
 
-            .rc-inner { border: 2px solid rgba(200,162,78,0.6) !important; border-radius: 14px !important; padding: 28px 26px !important; }
+            .rc-inner { border: 2px solid rgba(200,162,78,0.6) !important; border-radius: 14px !important; padding: 12px 20px !important; }
+
+            /* 1페이지 맞춤: 여백·간격 축소 */
+            .rc-header { margin-bottom: 8px !important; }
+            .rc-ornament { margin: 4px 0 2px !important; }
+            .rc-info { margin-bottom: 10px !important; padding-bottom: 10px !important; }
+            .rc-section { margin-bottom: 8px !important; }
+            .rc-section-title { margin-bottom: 8px !important; }
+            .rc-decl { padding: 14px 20px !important; }
+            .rc-decl::before, .rc-decl::after { font-size: 2rem !important; }
+            .rc-decl-text { font-size: 1rem !important; line-height: 1.75 !important; }
+            .rc-kw-tag { padding: 6px 16px !important; font-size: 0.85rem !important; }
+            .rc-kw-list { gap: 6px !important; }
+            .rc-footer { padding-top: 10px !important; margin-top: 10px !important; }
+            .rc-pledge { margin-bottom: 10px !important; font-size: 0.82rem !important; }
+            .sig-person-line { min-height: 20px !important; }
+            .sig-family-box { padding: 8px 14px !important; }
 
             /* Chrome 인쇄 시 createPattern 0-size canvas 오류 방지 */
             .result-card::before, .result-card::after {
