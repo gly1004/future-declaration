@@ -431,6 +431,11 @@
         .sig-person-line { border-bottom: 1.5px solid rgba(46,196,182,0.6); min-height: 36px; margin-bottom: 6px; }
         .sig-person-role { font-size: 0.68rem; color: #1a6a64; font-weight: 600; }
 
+        .sig-quote {
+            text-align: center; font-size: 0.8rem; font-style: italic;
+            color: #8ac8c0; line-height: 1.7; margin-top: 10px;
+        }
+
         .rc-watermark { display: none; font-size: 0.72rem; color: #aad4cc; text-align: center; margin-top: 14px; }
 
         /* ── Result Actions ── */
@@ -537,10 +542,10 @@
             .rc-inner {
                 border: 2px solid rgba(200,162,78,0.6) !important;
                 border-radius: 14px !important;
-                padding: 16px 22px !important;
+                padding: 14px 20px !important;
                 flex: 1 !important;
                 display: flex !important; flex-direction: column !important;
-                gap: 10px !important;
+                gap: 6px !important;
                 overflow: hidden !important;
             }
 
@@ -558,7 +563,7 @@
             }
             .rc-decl {
                 flex: 1 !important;
-                padding: 16px 22px !important;
+                padding: 20px 28px !important;
                 display: flex !important; align-items: center !important; justify-content: center !important;
             }
 
@@ -570,13 +575,43 @@
             .rc-section-title { font-size: 0.95rem !important; margin-bottom: 6px !important; }
             .rc-kw-tag { padding: 7px 18px !important; font-size: 0.92rem !important; }
             .rc-kw-list { gap: 8px !important; }
-            .rc-decl::before, .rc-decl::after { font-size: 2rem !important; }
-            .rc-decl-text { font-size: 1.1rem !important; line-height: 1.9 !important; }
-            .rc-pledge { font-size: 0.88rem !important; margin-bottom: 10px !important; line-height: 1.65 !important; }
-            .sig-person-line { min-height: 24px !important; }
-            .sig-family-box { padding: 8px 14px !important; }
-            .sig-family-title { font-size: 0.78rem !important; margin-bottom: 6px !important; }
-            .sig-person-role { font-size: 0.75rem !important; }
+            .rc-decl::before, .rc-decl::after { font-size: 2.5rem !important; }
+            .rc-decl-text { font-size: 1.25rem !important; line-height: 2.1 !important; }
+
+            /* pledge: 더 큰 글자, 위아래 여백 */
+            .rc-pledge {
+                font-size: 1.05rem !important;
+                padding: 10px 0 !important;
+                margin-bottom: 8px !important;
+                line-height: 1.9 !important;
+            }
+
+            /* 자녀 서명: 더 큰 박스 + 글자 */
+            .sig-child-row {
+                padding: 14px 20px !important;
+                margin-bottom: 10px !important;
+            }
+            .sig-badge { font-size: 0.82rem !important; padding: 5px 14px !important; }
+            .sig-name-text { font-size: 1.05rem !important; }
+            .sig-write-line { width: 130px !important; min-height: 30px !important; }
+
+            /* 가족 서명: 더 큰 박스 + 글자 */
+            .sig-family-box { padding: 14px 18px !important; margin-bottom: 6px !important; }
+            .sig-family-title { font-size: 0.9rem !important; margin-bottom: 10px !important; }
+            .sig-person-line { min-height: 36px !important; margin-bottom: 8px !important; }
+            .sig-person-role { font-size: 0.82rem !important; }
+            .sig-grid { gap: 12px !important; }
+
+            /* 인용구 */
+            .sig-quote {
+                display: block !important;
+                text-align: center !important;
+                font-size: 0.82rem !important;
+                font-style: italic !important;
+                color: #8ac8c0 !important;
+                line-height: 1.7 !important;
+                margin-top: 6px !important;
+            }
 
             /* Chrome createPattern 오류 방지 */
             .result-card::before, .result-card::after {
@@ -820,7 +855,7 @@
 
                 <div class="rc-footer">
                     <div class="rc-pledge">
-                        나는 이 선언을 소중히 지키며 매일 한 걸음씩 성장하는 사람이 되겠습니다.
+                        나는 이 선언을 소중히 지키며<br>매일 한 걸음씩 성장하는 사람이 되겠습니다.
                     </div>
 
                     <div class="sig-area">
@@ -850,6 +885,10 @@
                                     <div class="sig-person-role">가족</div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="sig-quote">
+                            "아이의 말은 그 아이의 미래가 되고,<br>아이의 선언은 그 아이의 역량이 된다"
                         </div>
                     </div>
                 </div>
